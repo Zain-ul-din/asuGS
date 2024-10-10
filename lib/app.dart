@@ -20,7 +20,7 @@ class App extends StatelessWidget {
       child: MaterialApp(
         title: 'Grid Scout',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
           useMaterial3: true,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
