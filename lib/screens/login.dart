@@ -1,3 +1,4 @@
+import 'package:asugs/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -44,7 +45,9 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  // Handle Google Sign-In here
+                  AuthService().googleSignIn().then((user) => {
+                        if (user != null) {Navigator.pushNamed(context, '/')}
+                      });
                 },
                 icon: Image.asset(
                   'assets/images/google_icon.png', // Path to your Google icon
