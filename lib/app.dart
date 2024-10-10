@@ -1,3 +1,4 @@
+import 'package:asugs/screens/splash.dart';
 import 'package:asugs/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,12 +16,18 @@ class App extends StatelessWidget {
             initialData: null)
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Grid Scout',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
           useMaterial3: true,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: HomePage(),
+        initialRoute: '/splash',
+        routes: {
+          '/splash': (ctx) => SplashScreen(),
+          '/': (ctx) => HomePage(),
+        },
+        // home: HomePage(),
       ),
     );
   }
