@@ -9,6 +9,10 @@ class AuthService {
   User? get getUser => _auth.currentUser;
   Stream<User?> get user => _auth.userChanges();
 
+  FirebaseAuth getAuth() {
+    return _auth;
+  }
+
   Future<String?> getUserName() async {
     User? user = _auth.currentUser;
     if (user != null) {
