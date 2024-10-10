@@ -1,3 +1,4 @@
+import 'package:asugs/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,8 +15,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _navigateToHome() async {
-    await Future.delayed(const Duration(seconds: 5), () {});
-    Navigator.pushNamed(context, '/');
+    await Future.delayed(const Duration(seconds: 3), () {});
+
+    // get the user
+    AuthService().getAuth().userChanges().listen((user) {
+      if (user == null) {
+        Navigator.pushNamed(context, '/login');
+      } else {
+        Navigator.pushNamed(context, '/');
+      }
+    });
   }
 
   @override
@@ -27,15 +36,15 @@ class _SplashScreenState extends State<SplashScreen> {
           Center(
             child: Image.asset(
               "assets/images/logo.png",
-              width: 200,
-              height: 200,
+              width: 150,
+              height: 150,
             ),
           ),
           const Spacer(),
           Text(
             "Grid Scout",
             style: GoogleFonts.bebasNeue(
-              fontSize: 36,
+              fontSize: 28,
             ),
           ),
           const SizedBox(
