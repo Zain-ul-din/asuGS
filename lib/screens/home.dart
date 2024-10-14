@@ -18,14 +18,13 @@ class _HomeScreen extends State<HomeScreen> {
     final user = Provider.of<User?>(context);
 
     List<List<String>> navigation = [
-      ["Scan QR Code", "assets/icons/qr_code.svg"],
-      ["Manual Entry", "assets/icons/text_file.svg"],
-      ["Equipments", "assets/icons/cable.svg"],
-      ["Settings", "assets/icons/settings.svg"],
+      ["Scan QR Code", "assets/icons/qr_code.svg", '/qrcode'],
+      ["Manual Entry", "assets/icons/text_file.svg", '/'],
+      ["Equipments", "assets/icons/cable.svg", '/'],
+      ["Settings", "assets/icons/settings.svg", '/'],
     ];
 
     return Scaffold(
-      // backgroundColor: Colors.grey[200],
       backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: user == null
@@ -93,6 +92,7 @@ class _HomeScreen extends State<HomeScreen> {
                         return NavigationCard(
                           title: navigation[i][0],
                           svgPath: navigation[i][1],
+                          href: navigation[i][2],
                         );
                       },
                     ),

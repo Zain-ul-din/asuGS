@@ -1,6 +1,7 @@
 import 'package:asugs/constants.dart';
 import 'package:asugs/screens/home.dart';
 import 'package:asugs/screens/login.dart';
+import 'package:asugs/screens/qrcode.dart';
 import 'package:asugs/screens/splash.dart';
 import 'package:asugs/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,6 +32,7 @@ class App extends StatelessWidget {
           '/splash': (ctx) => SplashScreen(),
           '/login': (ctx) => const LoginScreen(),
           '/': (ctx) => const HomeScreen(),
+          '/qrcode': (ctx) => const QrCode(),
         },
         // home: HomePage(),
       ),
