@@ -23,16 +23,17 @@ class NavigationCard extends StatelessWidget {
         },
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.shade200,
-                  blurRadius: 4,
-                  spreadRadius: 1,
-                  offset: const Offset(0, 2),
-                )
-              ]),
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.white,
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Colors.grey.shade200,
+            //     blurRadius: 4,
+            //     spreadRadius: 1,
+            //     offset: const Offset(0, 2),
+            //   )
+            // ],
+          ),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

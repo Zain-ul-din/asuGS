@@ -1,5 +1,6 @@
 import 'package:asugs/components/home_menu.dart';
 import 'package:asugs/components/navigation_card.dart';
+import 'package:asugs/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,7 +26,7 @@ class _HomeScreen extends State<HomeScreen> {
     ];
 
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: kPrimaryColor,
       body: SafeArea(
         // child: user == null
         // ? Container()
@@ -41,7 +42,8 @@ class _HomeScreen extends State<HomeScreen> {
                 children: [
                   Text(
                     "Grid Scout",
-                    style: GoogleFonts.bebasNeue(fontSize: 28),
+                    style: GoogleFonts.bebasNeue(
+                        fontSize: 28, color: kSecondaryColor),
                   ),
                   const Spacer(),
                   // HomeMenu(user)
@@ -63,13 +65,16 @@ class _HomeScreen extends State<HomeScreen> {
                 children: [
                   const Text(
                     "Welcome",
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     "Musheer Gorani",
                     // user?.displayName ?? "",
-                    style: GoogleFonts.bebasNeue(fontSize: 40),
+                    style: GoogleFonts.bebasNeue(
+                      fontSize: 40,
+                      color: Colors.white,
+                    ),
                   )
                 ],
               ),
