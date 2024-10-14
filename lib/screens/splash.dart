@@ -1,3 +1,4 @@
+import 'package:asugs/constants.dart';
 import 'package:asugs/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,14 +39,13 @@ class _SplashScreenState extends State<SplashScreen> {
               "assets/images/logo.png",
               width: 150,
               height: 150,
+              color: kSecondaryColor,
             ),
           ),
           const Spacer(),
           Text(
             "Grid Scout",
-            style: GoogleFonts.bebasNeue(
-              fontSize: 28,
-            ),
+            style: GoogleFonts.bebasNeue(fontSize: 28, color: kSecondaryColor),
           ),
           const SizedBox(
             height: 80,

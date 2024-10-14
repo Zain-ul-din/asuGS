@@ -1,4 +1,4 @@
 import 'package:flutter/material.dart';
 
-const kPrimaryColor = Color.fromARGB(136, 28, 62, 1);
-const kSecondaryColor = Color.fromARGB(246, 191, 38, 1);
+const kPrimaryColor = Color(0xFF881C3E);
+const kSecondaryColor = Color(0xFFF6BF26);

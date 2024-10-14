@@ -1,3 +1,4 @@
+import 'package:asugs/constants.dart';
 import 'package:asugs/screens/home.dart';
 import 'package:asugs/screens/login.dart';
 import 'package:asugs/screens/splash.dart';
@@ -23,6 +24,7 @@ class App extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
           useMaterial3: true,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          scaffoldBackgroundColor: kPrimaryColor,
         ),
         initialRoute: '/splash',
         routes: {

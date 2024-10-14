@@ -1,3 +1,4 @@
+import 'package:asugs/constants.dart';
 import 'package:asugs/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,6 +21,7 @@ class LoginScreen extends StatelessWidget {
                 'assets/images/logo.png', // Make sure to have an image in this path
                 width: 150, // Adjust width as necessary
                 height: 150, // Adjust height as necessary
+                color: kSecondaryColor,
               ),
               const SizedBox(height: 20), // Spacing between logo and text
               // Text below the logo
@@ -27,7 +29,7 @@ class LoginScreen extends StatelessWidget {
                 'Welcome to Grid Scout!',
                 style: GoogleFonts.bebasNeue(
                   fontSize: 28,
-                  color: Colors.black,
+                  color: kSecondaryColor,
                 ),
                 textAlign: TextAlign.center,
               ),

@@ -1,9 +1,7 @@
 import 'package:asugs/components/home_menu.dart';
 import 'package:asugs/components/navigation_card.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +25,7 @@ class _HomeScreen extends State<HomeScreen> {
     ];
 
     return Scaffold(
+      // backgroundColor: Colors.grey[200],
       backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: user == null
