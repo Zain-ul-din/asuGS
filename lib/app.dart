@@ -1,4 +1,5 @@
 import 'package:asugs/constants.dart';
+import 'package:asugs/screens/data_entry.dart';
 import 'package:asugs/screens/home.dart';
 import 'package:asugs/screens/login.dart';
 import 'package:asugs/screens/qrcode.dart';
@@ -33,6 +34,7 @@ class App extends StatelessWidget {
           '/login': (ctx) => const LoginScreen(),
           '/': (ctx) => const HomeScreen(),
           '/qrcode': (ctx) => const QrCode(),
+          '/data_entry': (ctx) => const DataEntryPage()
         },
         // home: HomePage(),
       ),

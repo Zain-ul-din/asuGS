@@ -35,11 +35,14 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           const Spacer(),
           Center(
-            child: Image.asset(
-              "assets/images/logo.png",
-              width: 150,
-              height: 150,
-              color: kSecondaryColor,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(
+                  75), // Half of the width/height for a perfect circle
+              child: Image.asset(
+                "assets/images/logo_white.png",
+                width: 150,
+                height: 150,
+              ),
             ),
           ),
           const Spacer(),

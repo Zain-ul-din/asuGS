@@ -17,11 +17,16 @@ class LoginScreen extends StatelessWidget {
             children: [
               const Spacer(),
               // Logo
-              Image.asset(
-                'assets/images/logo.png', // Make sure to have an image in this path
-                width: 150, // Adjust width as necessary
-                height: 150, // Adjust height as necessary
-                color: kSecondaryColor,
+              Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      75), // Half of the width/height for a perfect circle
+                  child: Image.asset(
+                    "assets/images/logo_white.png",
+                    width: 150,
+                    height: 150,
+                  ),
+                ),
               ),
               const SizedBox(height: 20), // Spacing between logo and text
               // Text below the logo
@@ -47,9 +52,10 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  AuthService().googleSignIn().then((user) => {
-                        if (user != null) {Navigator.pushNamed(context, '/')}
-                      });
+                  // AuthService().googleSignIn().then((user) => {
+                  //       if (user != null) {Navigator.pushNamed(context, '/')}
+                  //     });
+                  Navigator.pushNamed(context, '/');
                 },
                 icon: Image.asset(
                   'assets/images/google_icon.png', // Path to your Google icon
