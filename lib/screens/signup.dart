@@ -4,20 +4,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _isPasswordVisible = false; // Track password visibility
-  final _formKey = GlobalKey<FormState>(); // Form key for validation
+  final _formKey = GlobalKey<FormState>(); // Key for the form
   String? _errorMessage; // To store error messages
-  bool _isLoading = false; // Track loading state
+
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Logo
                   Center(
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(75), // Circular logo
+                      borderRadius: BorderRadius.circular(
+                          75), // Half of the width/height for a perfect circle
                       child: Image.asset(
                         "assets/images/logo_white.png",
                         width: 150,
@@ -45,10 +47,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 20), // Spacing between logo and text
                   // Text below the logo
                   Text(
-                    'Welcome to Grid Scout!',
+                    'Create Your Account!',
                     style: GoogleFonts.bebasNeue(
                       fontSize: 28,
-                      color: kSecondaryColor, // Use the secondary color
+                      color: kSecondaryColor,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -98,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onPressed: () {
                                   setState(() {
                                     _isPasswordVisible =
-                                        !_isPasswordVisible; // Toggle visibility
+                                        !_isPasswordVisible; // Toggle state
                                   });
                                 },
                               ),
@@ -118,17 +120,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (_errorMessage != null) ...[
                           Text(
                             _errorMessage!,
-                            style: const TextStyle(color: Colors.red),
+                            style: const TextStyle(color: kErrorColor),
                           ),
                           const SizedBox(height: 10),
                         ],
-                        // Login Button
+                        // Signup Button
                         Container(
                           width: double.infinity,
                           constraints: const BoxConstraints(maxWidth: 400),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue, // Button color
+                              backgroundColor:
+                                  Colors.blue, // Change color as needed
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(
                                   vertical: 12, horizontal: 24),
@@ -137,71 +140,47 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             onPressed: () async {
-                              if (_formKey.currentState!.validate() &&
-                                  !_isLoading) {
+                              if (_formKey.currentState!.validate()) {
                                 setState(() {
-                                  _isLoading = true;
-                                  _errorMessage = null;
+                                  _isLoading = true; // Hide loading
                                 });
+                                // Only proceed if the form is valid
                                 String email = emailController.text.trim();
                                 String password =
                                     passwordController.text.trim();
                                 User? user = await AuthService()
-                                    .signInWithEmailAndPassword(email, password,
-                                        (err) {
+                                    .registerWithEmailAndPassword(
+                                        email, password, (err) {
                                   setState(() {
                                     _errorMessage = err;
                                   });
                                 });
                                 if (user != null) {
-                                  Navigator.pushNamed(context, '/');
+                                  // Successful registration
+                                  Navigator.pushNamed(context,
+                                      '/'); // Navigate to home or another screen
                                 }
                                 setState(() {
-                                  _isLoading = false;
+                                  _isLoading = false; // Hide loading
                                 });
                               }
                             },
                             child: _isLoading
-                                ? const SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: CircularProgressIndicator(
+                                ? Container(
+                                    width: 20.0, // Set your desired width
+                                    height: 20.0, // Set your desired height
+                                    child: const CircularProgressIndicator(
                                       color: Colors.white,
                                       strokeWidth: 2,
                                     ),
                                   )
                                 : const Text(
-                                    'Login',
+                                    'Sign Up',
                                     style: TextStyle(fontSize: 16),
                                   ),
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  // Signup button for navigation to signup page
-                  Container(
-                    width: double.infinity,
-                    constraints: const BoxConstraints(maxWidth: 400),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.black,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12, horizontal: 24),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      onPressed: () {
-                        if (_isLoading) return;
-                        Navigator.pushNamed(context, '/signup');
-                      },
-                      child: const Text(
-                        'Signup new account',
-                        style: TextStyle(fontSize: 16),
-                      ),
                     ),
                   ),
                   const Spacer(),

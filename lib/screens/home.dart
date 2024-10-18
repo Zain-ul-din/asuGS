@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreen extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    // final user = Provider.of<User?>(context);
+    final user = Provider.of<User?>(context);
 
     List<List<String>> navigation = [
       ["Scan QR Code", "assets/icons/qr_code.svg", '/qrcode'],
@@ -28,81 +28,80 @@ class _HomeScreen extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: SafeArea(
-        // child: user == null
-        // ? Container()
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // custom header
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Grid Scout",
-                    style: GoogleFonts.bebasNeue(
-                        fontSize: 28, color: kSecondaryColor),
-                  ),
-                  const Spacer(),
-                  // HomeMenu(user)
-                ],
-              ),
-            ),
-
-            const SizedBox(
-              height: 20,
-            ),
-
-            // home screen
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-              ),
-              child: Column(
+        child: user == null
+            ? Container()
+            : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Welcome",
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  // custom header
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 24),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Grid Scout",
+                          style: GoogleFonts.bebasNeue(
+                              fontSize: 28, color: kSecondaryColor),
+                        ),
+                        const Spacer(),
+                        HomeMenu(user: user)
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    "Musheer Gorani",
-                    // user?.displayName ?? "",
-                    style: GoogleFonts.bebasNeue(
-                      fontSize: 40,
-                      color: Colors.white,
+                  const SizedBox(
+                    height: 20,
+                  ),
+
+                  // home screen
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Welcome",
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          // "Musheer Gorani",
+                          user?.displayName ?? user?.email ?? "",
+                          style: GoogleFonts.bebasNeue(
+                            fontSize: 40,
+                            color: Colors.white,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  // navigation
+                  const SizedBox(
+                    height: 44,
+                  ),
+                  Expanded(
+                    child: GridView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 24 - 8),
+                      itemCount: navigation.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemBuilder: (ctx, i) {
+                        return NavigationCard(
+                          title: navigation[i][0],
+                          svgPath: navigation[i][1],
+                          href: navigation[i][2],
+                        );
+                      },
                     ),
                   )
                 ],
               ),
-            ),
-
-            // navigation
-            const SizedBox(
-              height: 44,
-            ),
-
-            Expanded(
-              child: GridView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 24 - 8),
-                itemCount: navigation.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
-                itemBuilder: (ctx, i) {
-                  return NavigationCard(
-                    title: navigation[i][0],
-                    svgPath: navigation[i][1],
-                    href: navigation[i][2],
-                  );
-                },
-              ),
-            )
-          ],
-        ),
       ),
     );
   }

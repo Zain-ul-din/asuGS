@@ -17,7 +17,7 @@ class HomeMenu extends StatelessWidget {
       child: DropdownButton2(
         customButton: CircleAvatar(
           maxRadius: 24,
-          backgroundImage: NetworkImage(user?.photoURL ?? ""),
+          backgroundImage: Image.asset("assets/images/logo_gold.png").image,
         ),
         items: [
           ...MenuItems.firstItems.map(
