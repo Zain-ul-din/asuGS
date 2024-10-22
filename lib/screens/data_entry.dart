@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:geolocator/geolocator.dart';
 
 class DataEntryPage extends StatefulWidget {
   const DataEntryPage({super.key});
@@ -12,22 +13,58 @@ class DataEntryPage extends StatefulWidget {
 }
 
 class _DataEntryPageState extends State<DataEntryPage> {
-  //text editing controllers
+  // Text editing controllers
   final stringController = TextEditingController();
   final intController = TextEditingController();
   final dateController = TextEditingController();
   final timeController = TextEditingController();
   final datetimeController = TextEditingController();
+  final geoLocationController =
+      TextEditingController(); // Geolocation controller
 
-  //sendData method
+  @override
+  void initState() {
+    super.initState();
+    _determinePosition(); // Get geolocation when the page loads
+  }
+
+  // Method to determine the current position
+  Future<void> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return; // Location services are not enabled, do nothing
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return; // Permissions are denied, do nothing
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return; // Permissions are permanently denied, do nothing
+    }
+
+    // Get the current position and update the controller
+    Position position = await Geolocator.getCurrentPosition();
+    setState(() {
+      geoLocationController.text =
+          "${position.latitude}, ${position.longitude}";
+    });
+  }
+
+  // Send data method
   void sendData() async {
-    // Define the API endpoint
     final url = Uri.parse('http://10.130.1.143:5000/send-data');
+    final body =
+        jsonEncode({'email': (), 'geolocation': geoLocationController.text});
 
-    // Create the request body
-    final body = jsonEncode({'email': ()});
-
-    //send the POST request
     try {
       final response = await http.post(
         url,
@@ -49,7 +86,7 @@ class _DataEntryPageState extends State<DataEntryPage> {
     FirebaseAuth.instance.signOut();
   }
 
-  // Date Picker
+  // Date picker
   Future<void> _selectDate() async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -65,7 +102,7 @@ class _DataEntryPageState extends State<DataEntryPage> {
     }
   }
 
-  // Time Picker
+  // Time picker
   Future<void> _selectTime() async {
     TimeOfDay? pickedTime = await showTimePicker(
       context: context,
@@ -110,6 +147,7 @@ class _DataEntryPageState extends State<DataEntryPage> {
                     style: TextStyle(fontSize: 28, color: Colors.white),
                   ),
                   const SizedBox(height: 40),
+
                   // String data field
                   _buildTextField(
                     controller: stringController,
@@ -125,7 +163,7 @@ class _DataEntryPageState extends State<DataEntryPage> {
                   ),
                   const SizedBox(height: 30),
 
-                  // Date Picker field
+                  // Date picker field
                   GestureDetector(
                     onTap: _selectDate,
                     child: _buildTextField(
@@ -136,7 +174,7 @@ class _DataEntryPageState extends State<DataEntryPage> {
                   ),
                   const SizedBox(height: 30),
 
-                  // Time Picker field
+                  // Time picker field
                   GestureDetector(
                     onTap: _selectTime,
                     child: _buildTextField(
@@ -154,7 +192,15 @@ class _DataEntryPageState extends State<DataEntryPage> {
                   ),
                   const SizedBox(height: 30),
 
-                  // Send Data Button
+                  // Geolocation field (read-only)
+                  _buildTextField(
+                    controller: geoLocationController,
+                    hintText: 'Geo Location (Latitude, Longitude)',
+                    enabled: false, // Read-only
+                  ),
+                  const SizedBox(height: 30),
+
+                  // Send data button
                   _buildSendButton(),
                 ],
               ),
@@ -165,7 +211,7 @@ class _DataEntryPageState extends State<DataEntryPage> {
     );
   }
 
-  // Custom TextField builder with theme alignment
+  // Custom TextField builder
   Widget _buildTextField({
     required TextEditingController controller,
     required String hintText,

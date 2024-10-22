@@ -70,7 +70,7 @@ class _HomeScreen extends State<HomeScreen> {
                         const SizedBox(height: 8),
                         Text(
                           // "Musheer Gorani",
-                          user?.displayName ?? user?.email ?? "",
+                          user.email ?? "",
                           style: GoogleFonts.bebasNeue(
                             fontSize: 40,
                             color: Colors.white,
