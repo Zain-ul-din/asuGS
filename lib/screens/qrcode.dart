@@ -11,6 +11,7 @@ class QrCode extends StatefulWidget {
 class _QrCodeState extends State<QrCode> {
   BarcodeCapture? result;
   final MobileScannerController controller = MobileScannerController();
+  bool isNavigating = false; // Add a flag to track navigation state
 
   @override
   void dispose() {
@@ -27,9 +28,23 @@ class _QrCodeState extends State<QrCode> {
           MobileScanner(
             controller: controller,
             onDetect: (barcode) {
-              setState(() {
-                result = barcode;
-              });
+              // Check if already navigating, to avoid repeated navigation
+              if (!isNavigating) {
+                setState(() {
+                  result = barcode;
+                  isNavigating = true; // Set flag to true when navigating
+                });
+                String? res = barcode.barcodes.first.rawValue;
+
+                Navigator.pushNamed(context, '/data_entry', arguments: {
+                  'qr': res,
+                }).then((_) {
+                  // Reset the navigation flag when returning to QR screen
+                  setState(() {
+                    isNavigating = false;
+                  });
+                });
+              }
             },
           ),
           // Overlay at the bottom displaying QR code data

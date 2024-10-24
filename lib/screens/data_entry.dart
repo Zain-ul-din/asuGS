@@ -14,13 +14,15 @@ class DataEntryPage extends StatefulWidget {
 
 class _DataEntryPageState extends State<DataEntryPage> {
   // Text editing controllers
-  final stringController = TextEditingController();
-  final intController = TextEditingController();
-  final dateController = TextEditingController();
-  final timeController = TextEditingController();
-  final datetimeController = TextEditingController();
+  final componentIDController = TextEditingController();
+  final componentTypeController = TextEditingController();
+  final electricalSpecController = TextEditingController();
+  final connectionPointsController = TextEditingController();
   final geoLocationController =
       TextEditingController(); // Geolocation controller
+  final installationDateController = TextEditingController();
+  final operationStatusController = TextEditingController();
+  final derController = TextEditingController(); // Optional DER input
 
   @override
   void initState() {
@@ -62,8 +64,16 @@ class _DataEntryPageState extends State<DataEntryPage> {
   // Send data method
   void sendData() async {
     final url = Uri.parse('http://10.130.1.143:5000/send-data');
-    final body =
-        jsonEncode({'email': (), 'geolocation': geoLocationController.text});
+    final body = jsonEncode({
+      'component_id': componentIDController.text,
+      'component_type': componentTypeController.text,
+      'electrical_specifications': electricalSpecController.text,
+      'connection_points': connectionPointsController.text,
+      'geolocation': geoLocationController.text,
+      'installation_date': installationDateController.text,
+      'operation_status': operationStatusController.text,
+      'der': derController.text,
+    });
 
     try {
       final response = await http.post(
@@ -86,54 +96,20 @@ class _DataEntryPageState extends State<DataEntryPage> {
     FirebaseAuth.instance.signOut();
   }
 
-  // Date picker
-  Future<void> _selectDate() async {
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (pickedDate != null) {
-      setState(() {
-        dateController.text =
-            "${pickedDate.month}/${pickedDate.day}/${pickedDate.year}";
-      });
-    }
-  }
-
-  // Time picker
-  Future<void> _selectTime() async {
-    TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-    if (pickedTime != null) {
-      setState(() {
-        timeController.text = pickedTime.format(context); // Format as HH:MM
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    var args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String?>?;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
+        iconTheme: IconThemeData(color: Colors.white),
         title: Image.asset(
           'assets/images/banner_logo_maroon.png',
           fit: BoxFit.contain,
           height: 40,
         ),
-        actions: [
-          IconButton(
-            onPressed: signUserOut,
-            icon: const Icon(
-              Icons.logout,
-              color: Colors.white,
-            ),
-          ),
-        ],
       ),
       body: SafeArea(
         child: Center(
@@ -142,53 +118,51 @@ class _DataEntryPageState extends State<DataEntryPage> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 children: [
+                  const SizedBox(height: 16),
                   const Text(
-                    "Add New Data Entry",
+                    "Add New Component",
                     style: TextStyle(fontSize: 28, color: Colors.white),
                   ),
                   const SizedBox(height: 40),
 
-                  // String data field
+                  if (args != null && args['qr'] != null)
+                    Column(children: [
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text(
+                        "QR Data: ${args['qr']}",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ]),
+                  // Component ID field
                   _buildTextField(
-                    controller: stringController,
-                    hintText: 'String Data',
+                    controller: componentIDController,
+                    hintText: 'Component ID',
                   ),
                   const SizedBox(height: 30),
 
-                  // Int data field
+                  // Component Type field
                   _buildTextField(
-                    controller: intController,
-                    hintText: 'Int Data',
-                    keyboardType: TextInputType.number,
+                    controller: componentTypeController,
+                    hintText: 'Component Type',
                   ),
                   const SizedBox(height: 30),
 
-                  // Date picker field
-                  GestureDetector(
-                    onTap: _selectDate,
-                    child: _buildTextField(
-                      controller: dateController,
-                      hintText: 'Date (MM/DD/YYYY)',
-                      enabled: false, // Disable manual editing
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-
-                  // Time picker field
-                  GestureDetector(
-                    onTap: _selectTime,
-                    child: _buildTextField(
-                      controller: timeController,
-                      hintText: 'Time (12:15 PM)',
-                      enabled: false, // Disable manual editing
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-
-                  // DateTime data field
+                  // Electrical Specifications field
                   _buildTextField(
-                    controller: datetimeController,
-                    hintText: 'DateTime (MM-DD-YYYY 00:00:00)',
+                    controller: electricalSpecController,
+                    hintText: 'Electrical Specifications',
+                  ),
+                  const SizedBox(height: 30),
+
+                  // Connection Points field
+                  _buildTextField(
+                    controller: connectionPointsController,
+                    hintText: 'Connection Points',
                   ),
                   const SizedBox(height: 30),
 
@@ -200,8 +174,31 @@ class _DataEntryPageState extends State<DataEntryPage> {
                   ),
                   const SizedBox(height: 30),
 
+                  // Installation Date field
+                  _buildTextField(
+                    controller: installationDateController,
+                    hintText: 'Installation Date (MM-DD-YYYY)',
+                  ),
+                  const SizedBox(height: 30),
+
+                  // Operation Status field
+                  _buildTextField(
+                    controller: operationStatusController,
+                    hintText: 'Operation Status (active/inactive/maintenance)',
+                  ),
+                  const SizedBox(height: 30),
+
+                  // Optional DER field
+                  _buildTextField(
+                    controller: derController,
+                    hintText: 'Distributed Energy Resource (Optional)',
+                  ),
+                  const SizedBox(height: 30),
+
                   // Send data button
                   _buildSendButton(),
+
+                  const SizedBox(height: 30),
                 ],
               ),
             ),
