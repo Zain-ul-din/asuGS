@@ -41,52 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCVOrm8kzuldObWOdeQWgUYeda9r07lQjY',
-    appId: '1:191223311207:web:5d1d38ff5e260ed9001dc2',
-    messagingSenderId: '191223311207',
-    projectId: 'gridscout-52d9b',
-    authDomain: 'gridscout-52d9b.firebaseapp.com',
-    storageBucket: 'gridscout-52d9b.appspot.com',
-    measurementId: 'G-RLG06W5J9J',
+    apiKey: 'AIzaSyDOOp7igKacUAldEqW_gBUSIJ7pqSjJS6U',
+    appId: '1:585034094277:web:008f6cc30de91b5a4582ac',
+    messagingSenderId: '585034094277',
+    projectId: 'gridscout-c084c',
+    authDomain: 'gridscout-c084c.firebaseapp.com',
+    storageBucket: 'gridscout-c084c.appspot.com',
+    measurementId: 'G-P8CH4MVPZ7',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDyyAEEOMsUcvWwwui8AA5oBUH2ocxs-as',
-    appId: '1:191223311207:android:c66a2bb2d18fecd5001dc2',
-    messagingSenderId: '191223311207',
-    projectId: 'gridscout-52d9b',
-    storageBucket: 'gridscout-52d9b.appspot.com',
+    apiKey: 'AIzaSyBX7r9CCDUFLmNxKaXarXTDhZrBtEamb54',
+    appId: '1:585034094277:android:578fa1c566364d6c4582ac',
+    messagingSenderId: '585034094277',
+    projectId: 'gridscout-c084c',
+    storageBucket: 'gridscout-c084c.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAenT3xuEk4FTFal74V4TlS0p17Y0J3v5w',
-    appId: '1:191223311207:ios:3be75d0250dc6fdc001dc2',
-    messagingSenderId: '191223311207',
-    projectId: 'gridscout-52d9b',
-    storageBucket: 'gridscout-52d9b.appspot.com',
-    iosClientId:
-        '191223311207-bu5cauqabl4u6jgr2s7ud7gk95tdq769.apps.googleusercontent.com',
+    apiKey: 'AIzaSyArE0SbWWGE6d-h6xOeKter0niS91GR3Io',
+    appId: '1:585034094277:ios:d310783444d765a24582ac',
+    messagingSenderId: '585034094277',
+    projectId: 'gridscout-c084c',
+    storageBucket: 'gridscout-c084c.appspot.com',
     iosBundleId: 'com.example.asugs',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAenT3xuEk4FTFal74V4TlS0p17Y0J3v5w',
-    appId: '1:191223311207:ios:3be75d0250dc6fdc001dc2',
-    messagingSenderId: '191223311207',
-    projectId: 'gridscout-52d9b',
-    storageBucket: 'gridscout-52d9b.appspot.com',
-    iosClientId:
-        '191223311207-bu5cauqabl4u6jgr2s7ud7gk95tdq769.apps.googleusercontent.com',
+    apiKey: 'AIzaSyArE0SbWWGE6d-h6xOeKter0niS91GR3Io',
+    appId: '1:585034094277:ios:d310783444d765a24582ac',
+    messagingSenderId: '585034094277',
+    projectId: 'gridscout-c084c',
+    storageBucket: 'gridscout-c084c.appspot.com',
     iosBundleId: 'com.example.asugs',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCVOrm8kzuldObWOdeQWgUYeda9r07lQjY',
-    appId: '1:191223311207:web:46a2c7e1fdf00b43001dc2',
-    messagingSenderId: '191223311207',
-    projectId: 'gridscout-52d9b',
-    authDomain: 'gridscout-52d9b.firebaseapp.com',
-    storageBucket: 'gridscout-52d9b.appspot.com',
-    measurementId: 'G-RF0BH5ZLLN',
+    apiKey: 'AIzaSyDOOp7igKacUAldEqW_gBUSIJ7pqSjJS6U',
+    appId: '1:585034094277:web:01982f749a18fcc44582ac',
+    messagingSenderId: '585034094277',
+    projectId: 'gridscout-c084c',
+    authDomain: 'gridscout-c084c.firebaseapp.com',
+    storageBucket: 'gridscout-c084c.appspot.com',
+    measurementId: 'G-DXJ0VQMQBJ',
   );
+
 }

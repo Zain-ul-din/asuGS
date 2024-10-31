@@ -28,6 +28,16 @@ class _DataEntryPageState extends State<DataEntryPage> {
   void initState() {
     super.initState();
     _determinePosition(); // Get geolocation when the page loads
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      var args =
+          ModalRoute.of(context)?.settings.arguments as Map<String, String?>?;
+      if (args != null && args['qr'] != null) {
+        setState(() {
+          componentIDController.text = args['qr']!;
+        });
+      }
+    });
   }
 
   // Method to determine the current position
@@ -104,6 +114,7 @@ class _DataEntryPageState extends State<DataEntryPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
+        surfaceTintColor: kPrimaryColor,
         iconTheme: IconThemeData(color: Colors.white),
         title: Image.asset(
           'assets/images/banner_logo_maroon.png',
@@ -124,24 +135,11 @@ class _DataEntryPageState extends State<DataEntryPage> {
                     style: TextStyle(fontSize: 28, color: Colors.white),
                   ),
                   const SizedBox(height: 40),
-
-                  if (args != null && args['qr'] != null)
-                    Column(children: [
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Text(
-                        "QR Data: ${args['qr']}",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                    ]),
                   // Component ID field
                   _buildTextField(
                     controller: componentIDController,
                     hintText: 'Component ID',
+                    enabled: !(args != null && args['qr'] != null),
                   ),
                   const SizedBox(height: 30),
 
@@ -174,11 +172,8 @@ class _DataEntryPageState extends State<DataEntryPage> {
                   ),
                   const SizedBox(height: 30),
 
-                  // Installation Date field
-                  _buildTextField(
-                    controller: installationDateController,
-                    hintText: 'Installation Date (MM-DD-YYYY)',
-                  ),
+                  // Installation Date field with Date Picker
+                  _buildInstallationDateField(),
                   const SizedBox(height: 30),
 
                   // Operation Status field
@@ -222,10 +217,61 @@ class _DataEntryPageState extends State<DataEntryPage> {
       decoration: InputDecoration(
         hintText: hintText,
         filled: true,
-        fillColor: Colors.grey[100],
+        fillColor: enabled
+            ? Colors.grey[100]
+            : Colors.grey[200], // Different color when disabled
+        hintStyle: TextStyle(
+          color: enabled
+              ? Colors.black45
+              : Colors.black26, // Lighter hint color when disabled
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+          borderSide: BorderSide.none, // No border by default
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(
+              color: Colors.grey, width: 1.0), // Customize enabled border
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(
+              color: Colors.grey, width: 1.0), // Customize disabled border
+        ),
+      ),
+      style: TextStyle(
+        color: Colors.black, // Text color stays black even when disabled
+      ),
+    );
+  }
+
+  // Custom Installation Date Field with Date Picker
+  Widget _buildInstallationDateField() {
+    return GestureDetector(
+      onTap: () async {
+        DateTime? pickedDate = await showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2000), // Date picker starts from the year 2000
+          lastDate: DateTime(2100), // Date picker ends in the year 2100
+        );
+
+        if (pickedDate != null) {
+          // Format the selected date as MM-DD-YYYY
+          String formattedDate =
+              "${pickedDate.month}-${pickedDate.day}-${pickedDate.year}";
+          setState(() {
+            installationDateController.text =
+                formattedDate; // Set the selected date in the controller
+          });
+        }
+      },
+      child: AbsorbPointer(
+        child: _buildTextField(
+          controller: installationDateController,
+          hintText: 'Installation Date (MM-DD-YYYY)',
+          keyboardType: TextInputType.datetime, // Set keyboard type to date
         ),
       ),
     );

@@ -116,11 +116,30 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(height: 20),
                         // Error message display
                         if (_errorMessage != null) ...[
-                          Text(
-                            _errorMessage!,
-                            style: const TextStyle(color: Colors.red),
+                          Row(
+                            children: [
+                              Text(
+                                _errorMessage!,
+                                style: const TextStyle(color: Colors.red),
+                              ),
+                              Spacer(),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(context, '/forget');
+                                },
+                                child: Text(
+                                  "Forget Password?",
+                                  style: const TextStyle(
+                                    color: kSecondaryColor,
+                                    decorationStyle: TextDecorationStyle.wavy,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: kSecondaryColor,
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 20),
                         ],
                         // Login Button
                         Container(

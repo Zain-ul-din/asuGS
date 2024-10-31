@@ -65,6 +65,14 @@ class AuthService {
     }
   }
 
+  Future<void> resetPassword(String email, Function(String) onError) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      onError(e.toString()); // Pass the error message to the UI
+    }
+  }
+
   // Register a new user with email and password
   Future<User?> registerWithEmailAndPassword(
       String email, String password, Function(String?) errorCallBack) async {

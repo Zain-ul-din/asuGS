@@ -1,3 +1,4 @@
+import 'package:asugs/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -22,6 +23,16 @@ class _QrCodeState extends State<QrCode> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: kPrimaryColor,
+        surfaceTintColor: kPrimaryColor,
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Image.asset(
+          'assets/images/banner_logo_maroon.png',
+          fit: BoxFit.contain,
+          height: 40,
+        ),
+      ),
       body: Stack(
         children: [
           // Camera view for scanning QR code

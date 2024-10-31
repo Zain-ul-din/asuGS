@@ -1,5 +1,6 @@
 import 'package:asugs/constants.dart';
 import 'package:asugs/screens/data_entry.dart';
+import 'package:asugs/screens/forget_password.dart';
 import 'package:asugs/screens/home.dart';
 import 'package:asugs/screens/login.dart';
 import 'package:asugs/screens/qrcode.dart';
@@ -46,7 +47,7 @@ class App extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(10),
             ),
-            focusedBorder: OutlineInputBorder(
+            focusedBorder: UnderlineInputBorder(
               borderSide: const BorderSide(
                 color: kSecondaryColor, // Border color when focused
                 width: 2.0,
@@ -70,6 +71,7 @@ class App extends StatelessWidget {
           '/splash': (ctx) => SplashScreen(),
           '/login': (ctx) => const LoginScreen(),
           '/signup': (ctx) => const SignupScreen(),
+          '/forget': (ctx) => const ForgotPasswordScreen(),
           '/': (ctx) => const HomeScreen(),
           '/qrcode': (ctx) => const QrCode(),
           '/data_entry': (ctx) => const DataEntryPage()
