@@ -4,10 +4,14 @@ import 'dart:async';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSigin = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   User? get getUser => _auth.currentUser;
   Stream<User?> get user => _auth.userChanges();
+
+  FirebaseAuth getAuth() {
+    return _auth;
+  }
 
   Future<String?> getUserName() async {
     User? user = _auth.currentUser;
@@ -19,7 +23,7 @@ class AuthService {
 
   Future<User?> googleSignIn() async {
     try {
-      GoogleSignInAccount? googleSignInAccount = await _googleSigin.signIn();
+      GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
       GoogleSignInAuthentication? googleAuth =
           await googleSignInAccount?.authentication;
 
@@ -28,10 +32,8 @@ class AuthService {
         idToken: googleAuth?.idToken ?? "",
       );
 
-      UserCredential? result = await _auth.signInWithCredential(credential);
-
-      print('loggedIn User: ');
-      print(result.user);
+      UserCredential result = await _auth.signInWithCredential(credential);
+      print('Logged in User: ${result.user}');
 
       // TODO: send user credentials to our server
       // await _updateUserData(result.user);
@@ -43,25 +45,51 @@ class AuthService {
     }
   }
 
-  // Future<void> _updateUserData(User? user) async {
-  //   if (user == null) return;
-  //   DocumentReference userRef = _db.collection('patients').doc(user.uid);
+  // Sign in with email and password
+  Future<User?> signInWithEmailAndPassword(
+      String email, String password, Function(String?) errorCallBack) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return userCredential.user;
+    } on FirebaseAuthException catch (e) {
+      // Handle specific Firebase exceptions
+      print('Error signing in: ${e.code}');
 
-  //   // Get FCM token
-  //   String? fcmToken = await getToken();
+      if (e.code == "invalid-credential") {
+        errorCallBack("Invalid Credentials");
+      } else {
+        errorCallBack('Login failed. Please try again.');
+      }
+      return null;
+    }
+  }
 
-  //   return userRef.set({
-  //     'uid': user.uid,
-  //     'displayName': user.displayName ?? '',
-  //     'email': user.email ?? '',
-  //     'photoURL': user.photoURL ?? '',
-  //     'lastSignInTime': user.metadata.lastSignInTime?.toIso8601String() ?? '',
-  //     'creationTime': user.metadata.creationTime?.toIso8601String() ?? '',
-  //     'fcm_token': fcmToken, // Store FCM token
-  //   }, SetOptions(merge: true));
-  // }
+  Future<void> resetPassword(String email, Function(String) onError) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      onError(e.toString()); // Pass the error message to the UI
+    }
+  }
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  // Register a new user with email and password
+  Future<User?> registerWithEmailAndPassword(
+      String email, String password, Function(String?) errorCallBack) async {
+    try {
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      return userCredential.user;
+    } on FirebaseAuthException catch (e) {
+      // Handle specific Firebase exceptions
+      if (e.code == "email-already-in-use") {
+        errorCallBack("email already register");
+      } else {
+        errorCallBack('Signup failed. Please try again.');
+      }
+      return null;
+    }
+  }
 
   Future<void> signOut() async {
     try {
